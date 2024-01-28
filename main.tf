@@ -4,7 +4,6 @@ provider "aws" {
 
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "www.humza-resume.com"
-  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_policy" "allow_public_read_access_to_bucket" {
