@@ -6,6 +6,23 @@ resource "aws_s3_bucket" "my_bucket" {
   bucket = "www.humza-resume.com2"
 }
 
+resource "aws_s3_bucket_public_access_block" "public_access_block" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_website_configuration" "example" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+}
+
 resource "aws_s3_bucket_policy" "allow_public_read_access_to_bucket" {
   bucket = aws_s3_bucket.my_bucket.id
   policy = data.aws_iam_policy_document.allow_public_read_access_to_bucket.json
@@ -21,23 +38,6 @@ data "aws_iam_policy_document" "allow_public_read_access_to_bucket" {
       type        = "AWS"
       identifiers = ["*"]
     }
-  }
-}
-
-resource "aws_s3_bucket_public_access_block" "public_access_block" {
-  bucket = aws_s3_bucket.my_bucket.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
-resource "aws_s3_bucket_website_configuration" "example" {
-  bucket = aws_s3_bucket.my_bucket.id
-
-  index_document {
-    suffix = "index.html"
   }
 }
 
