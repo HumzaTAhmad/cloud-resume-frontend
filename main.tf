@@ -3,8 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "www.humza-resume.com"
-  acl    = "public-read"
+  bucket = "www.humza-resume.com2"
 }
 
 resource "aws_s3_bucket_policy" "allow_public_read_access_to_bucket" {
@@ -45,8 +44,8 @@ resource "aws_s3_bucket_website_configuration" "example" {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name              = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
-    origin_id                = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
+    domain_name              = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
+    origin_id                = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
   }
 
   enabled             = true
@@ -57,7 +56,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
+    target_origin_id = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
 
 
     viewer_protocol_policy = "https-only"
