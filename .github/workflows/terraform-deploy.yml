@@ -24,11 +24,4 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
-    
-    - name: List directory contents
-      run: ls -la
-    
-    - name: Deploy to S3
-      run: |
-        aws s3 sync . s3://www.humza-resume.com --exclude "main.tf"
-        # Replace ./build with the correct directory if needed
+        # Additional commands for CDN cache invalidation, if needed
