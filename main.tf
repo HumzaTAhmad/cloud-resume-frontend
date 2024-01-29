@@ -42,35 +42,35 @@ data "aws_iam_policy_document" "allow_public_read_access_to_bucket" {
 }
 
 
-resource "aws_cloudfront_distribution" "s3_distribution" {
-  origin {
-    domain_name              = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
-    origin_id                = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
-  }
+#resource "aws_cloudfront_distribution" "s3_distribution" {
+#  origin {
+#    domain_name              = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
+#    origin_id                = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
+#  }
 
-  enabled             = true
-  default_root_object = "index.html"
-
-
-
-  default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
+#  enabled             = true
+#  default_root_object = "index.html"
 
 
-    viewer_protocol_policy = "https-only"
-  }
+
+#  default_cache_behavior {
+#    allowed_methods  = ["GET", "HEAD"]
+#    cached_methods   = ["GET", "HEAD"]
+#    target_origin_id = "www.humza-resume.com2.s3.us-east-1.amazonaws.com"
 
 
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-      locations        = []
-    }
-  }
+#    viewer_protocol_policy = "https-only"
+#  }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
-}
+
+#  restrictions {
+#    geo_restriction {
+#      restriction_type = "none"
+#      locations        = []
+#    }
+#  }
+
+#  viewer_certificate {
+#    cloudfront_default_certificate = true
+#  }
+#}
