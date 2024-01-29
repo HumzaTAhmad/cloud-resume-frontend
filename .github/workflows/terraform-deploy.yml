@@ -26,5 +26,5 @@ jobs:
       run: terraform apply -auto-approve
     
     - name: Deploy to S3
-      run: aws s3 sync . s3://www.humza-resume.com2 --exclude "main.tf"
+      run: aws s3 sync . s3://www.humza-resume.com2 --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "*.tfstate" --exclude "main.tf" --exclude "*.yml"
         # Additional commands for CDN cache invalidation, if needed
