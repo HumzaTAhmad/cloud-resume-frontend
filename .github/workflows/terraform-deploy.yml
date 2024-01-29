@@ -19,9 +19,6 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    - name: Terraform Refresh
-      run: terraform refresh
-
     - name: Terraform Plan
       run: terraform plan
 
@@ -29,5 +26,5 @@ jobs:
       run: terraform apply -auto-approve
     
     - name: Deploy to S3
-      run: aws s3 sync . s3://www.humza-resume.com --exclue "main.tf"
+      run: aws s3 sync . s3://www.humza-resume.com --exclude "main.tf"
         # Additional commands for CDN cache invalidation, if needed
