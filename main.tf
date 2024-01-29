@@ -43,6 +43,7 @@ data "aws_iam_policy_document" "allow_public_read_access_to_bucket" {
 
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
+
   origin {
     domain_name              = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
     origin_id                = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
@@ -60,6 +61,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
 
     viewer_protocol_policy = "https-only"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+  }
   }
 
 
