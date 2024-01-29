@@ -47,6 +47,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name              = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
     origin_id                = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = "TLSv1.2"
+    }
   }
 
   enabled             = true
@@ -55,20 +62,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
 
   default_cache_behavior {
+    compress = true
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
 
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized policy ID
+    origin_request_policy_id = "216adef4-5c84-46e2-86d3-4a556efcd453" # Managed-AllViewer policy ID
+    viewer_protocol_policy = "redirect-to-https"
 
-    viewer_protocol_policy = "https-only"
-
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-  }
   }
 
 
@@ -79,7 +81,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  aliases = ["www.humza-resume.com"]
+
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = "arn:aws:acm:us-east-1:654654379379:certificate/26836a5e-4d8e-4cbc-bf18-eb7d9cb8f35a"
+    ssl_support_method  = "sni-only"
   }
 }
