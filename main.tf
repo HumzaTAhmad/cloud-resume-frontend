@@ -67,9 +67,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
 
-    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized policy ID
-    origin_request_policy_id = "216adef4-5c84-46e2-86d3-4a556efcd453" # Managed-AllViewer policy ID
     viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
 
   }
 
