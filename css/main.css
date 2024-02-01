@@ -24,6 +24,22 @@
  * Copyright 2012-2013 Mattia Larentis
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
+ @keyframes rainbowText {
+  0% { color: red; }
+  14% { color: orange; }
+  28% { color: yellow; }
+  42% { color: green; }
+  56% { color: blue; }
+  70% { color: indigo; }
+  84% { color: violet; }
+  100% { color: red; }
+}
+
+.rainbow-text {
+  animation: rainbowText 10s linear infinite;
+}
+
 .bootstrap-switch {
   display: inline-block;
   direction: ltr;
