@@ -2,6 +2,15 @@ provider "aws" {
   region = "us-east-1"
 }
 
+
+terraform {
+  backend "s3" {
+    bucket = "my-terraform-state-bucket"
+    key    = "fronend/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "www.humza-resume.com"
 }
@@ -38,6 +47,16 @@ data "aws_iam_policy_document" "allow_public_read_access_to_bucket" {
       type        = "AWS"
       identifiers = ["*"]
     }
+  }
+}
+
+resource "aws_acm_certificate" "godaddy_cert" {
+  domain_name       = "www.humza-resume.com"
+  validation_method = "DNS"
+
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -90,7 +109,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   aliases = ["www.humza-resume.com"]
 
   viewer_certificate {
-    acm_certificate_arn = "arn:aws:acm:us-east-1:654654379379:certificate/26836a5e-4d8e-4cbc-bf18-eb7d9cb8f35a"
+    acm_certificate_arn = aws_acm_certificate.godaddy_cert.arn
     ssl_support_method  = "sni-only"
   }
 }
+
