@@ -27,9 +27,11 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan
+      working-directory: ./terraform/s3-cert
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+      working-directory: ./terraform/s3-cert
     
     - name: Deploy to S3
       run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
@@ -40,6 +42,7 @@ jobs:
         echo "Please ensure DNS validation records are added to your domain provider before approving the continuation of the workflow. Check the Terraform output for specific DNS records that need to be added. Manual approval will be required in the 'deploy-cloudfront' job to continue with the deployment."
   
   build-dev-2:
+    needs: build-dev-1
     runs-on: ubuntu-latest
     environment:  # Define the environment that requires a manual approval.
       name: prod
@@ -65,9 +68,11 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan
+      working-directory: ./terraform/cloudfront
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+      working-directory: ./terraform/cloudfront
     
     - name: Terraform Destroy
       run: terraform destory
