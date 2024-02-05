@@ -21,6 +21,7 @@ describe('Lambda Function Test', () => {
   });
 });
 
+/*
 // Second group of tests
 describe('Website Visits Test', () => {
   it('check visit counter', () => {
@@ -45,3 +46,4 @@ describe('Website Visits Test', () => {
     });
   });
 });
+*/

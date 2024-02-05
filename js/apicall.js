@@ -1,5 +1,5 @@
 // Contents of script.js
-fetch('https://qlvs90sd39.execute-api.us-east-1.amazonaws.com/Beta/', {
+fetch('https://xnuxp23zvc.execute-api.us-east-1.amazonaws.com/v1', {
   method: 'PUT',
   headers: {
     'Content-Type': 'application/json',
@@ -11,6 +11,6 @@ fetch('https://qlvs90sd39.execute-api.us-east-1.amazonaws.com/Beta/', {
   document.getElementById('visitCount').textContent = data.visits;
 })
 .catch((error) => {
-  console.error('Error:', error);
+  console.error('Error:----', error);
   document.getElementById('visitCount').textContent = 'Error: ' + error;
 });
