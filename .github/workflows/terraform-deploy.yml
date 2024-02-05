@@ -3,7 +3,7 @@ name: Deploy Infrastructure with Terraform
 on: [push]
 
 jobs:
-  build-dev:
+  build-dev-1:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
@@ -21,8 +21,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1 # or your AWS region
 
-    - name: Terraform Init
+    - name: Terraform Init S3 and godaddy cert
       run: terraform init
+      working-directory: ./terraform/s3-cert
 
     - name: Terraform Plan
       run: terraform plan
@@ -34,11 +35,11 @@ jobs:
       run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
         # Additional commands for CDN cache invalidation, if needed
     
-    - name: Terraform destroy
-      run: terraform destroy -auto-approve
-    
-  build-prod:
-    needs:  build-dev
+    - name: Print Instructions
+      run: |
+        echo "Please ensure DNS validation records are added to your domain provider before approving the continuation of the workflow. Check the Terraform output for specific DNS records that need to be added. Manual approval will be required in the 'deploy-cloudfront' job to continue with the deployment."
+  
+  build-dev-2:
     runs-on: ubuntu-latest
     environment:  # Define the environment that requires a manual approval.
       name: prod
@@ -54,12 +55,13 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1 # or your AWS region
 
-    - name: Terraform Init
+    - name: Terraform Init cloudfront
       run: terraform init
+      working-directory: ./terraform/cloudfront
 
     - name: Terraform Plan
       run: terraform plan
@@ -67,6 +69,6 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve
     
-    - name: Deploy to S3
-      run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
-        # Additional commands for CDN cache invalidation, if needed
+    - name: Terraform Destroy
+      run: terraform destory
+      
