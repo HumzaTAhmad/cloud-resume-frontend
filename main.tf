@@ -12,7 +12,7 @@ terraform {
     }
   }
 }
-
+#-------------------------------------------S3 Bucket-----------------------------------------
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "www.humza-resume.com"
 }
@@ -51,7 +51,7 @@ data "aws_iam_policy_document" "allow_public_read_access_to_bucket" {
     }
   }
 }
-
+#--------------------------------------------------AWS Certificate Manager-----------------------------------
 resource "aws_acm_certificate" "godaddy_cert" {
   domain_name       = "www.humza-resume.com"
   validation_method = "DNS"
@@ -62,7 +62,7 @@ resource "aws_acm_certificate" "godaddy_cert" {
   }
 }
 
-
+#--------------------------------------------------AWS Cloudfront------------------------------------------
 resource "aws_cloudfront_distribution" "s3_distribution" {
 
   origin {

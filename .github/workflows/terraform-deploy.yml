@@ -34,8 +34,14 @@ jobs:
       run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
         # Additional commands for CDN cache invalidation, if needed
     
+    - name: Terraform destroy
+      run: terraform destroy -auto-approve
+    
   build-prod:
+    needs:  build-dev
     runs-on: ubuntu-latest
+    environment:  # Define the environment that requires a manual approval.
+      name: prod
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
