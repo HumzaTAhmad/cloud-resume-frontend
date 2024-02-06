@@ -12,9 +12,17 @@ terraform {
     }
   }
 }
+
+#------------------------------------------dev domain name----------------------------------
+variable "domain_name" {
+  description = "The name of the S3 bucket"
+  type        = string
+}
+
+
 #-------------------------------------------S3 Bucket-----------------------------------------
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "www.humza-resume.com"
+  bucket = var.domain_name
 }
 
 resource "aws_s3_bucket_public_access_block" "public_access_block" {
@@ -58,7 +66,7 @@ resource "aws_s3_bucket_policy" "allow_public_read_access_to_bucket" {
 
 #--------------------------------------------------AWS Certificate Manager-----------------------------------
 resource "aws_acm_certificate" "godaddy_cert" {
-  domain_name       = "www.humza-resume.com"
+  domain_name       = var.domain_name
   validation_method = "DNS"
 
 
@@ -71,8 +79,8 @@ resource "aws_acm_certificate" "godaddy_cert" {
 resource "aws_cloudfront_distribution" "s3_distribution" {
 
   origin {
-    domain_name              = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
-    origin_id                = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
+    domain_name              = "${var.domain_name}.s3.us-east-1.amazonaws.com"
+    origin_id                = "${var.domain_name}.s3.us-east-1.amazonaws.com"
 
     custom_origin_config {
       http_port              = 80
@@ -91,7 +99,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     compress = true
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "www.humza-resume.com.s3.us-east-1.amazonaws.com"
+    target_origin_id = "${var.domain_name}.s3.us-east-1.amazonaws.com"
 
     viewer_protocol_policy = "redirect-to-https"
 
@@ -113,7 +121,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  aliases = ["www.humza-resume.com"]
+  aliases = [var.domain_name]
 
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.godaddy_cert.arn

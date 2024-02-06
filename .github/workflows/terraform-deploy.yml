@@ -28,7 +28,10 @@ jobs:
       run: terraform plan
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve -var="domain_name=www.humza-resume.com"
+    
+    - name: Empty S3 Bucket
+      run: aws s3 rm s3://www.humza-resume.com --recursive
     
     - name: Deploy to S3
       run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
@@ -38,4 +41,6 @@ jobs:
 
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
+    
+  
       
