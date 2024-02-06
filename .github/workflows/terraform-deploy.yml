@@ -28,7 +28,9 @@ jobs:
       run: terraform plan
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var="domain_name=www.humza-resume.com"
+      env:
+        TF_VAR_domain_name: "www.humza-resume.com"
+      run: terraform apply -auto-approve
     
     - name: Empty S3 Bucket
       run: aws s3 rm s3://www.humza-resume.com --recursive
