@@ -35,5 +35,5 @@ jobs:
         # Additional commands for CDN cache invalidation, if needed
     
     - name: Terraform Destroy
-      run: terraform destroy
+      run: terraform destroy -auto-approve
       
