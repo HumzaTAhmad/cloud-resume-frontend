@@ -32,8 +32,10 @@ jobs:
     
     - name: Deploy to S3
       run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
-        # Additional commands for CDN cache invalidation, if needed
-    
+        
+    - name: Empty S3 Bucket
+      run: aws s3 rm s3://www.humza-resume.com --recursive
+
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       
