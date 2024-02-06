@@ -66,3 +66,7 @@ resource "aws_acm_certificate" "godaddy_cert" {
     create_before_destroy = true
   }
 }
+
+output "acm_certificate_arn" {
+  value = aws_acm_certificate.godaddy_cert.arn
+}
