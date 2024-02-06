@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "allow_public_read_access_to_bucket" {
 
 resource "aws_s3_bucket_policy" "allow_public_read_access_to_bucket" {
   depends_on = [
-      aws_iam_policy_document.allow_public_read_access_to_bucket,
+      data.aws_iam_policy_document.allow_public_read_access_to_bucket,
       aws_s3_bucket.my_bucket
   ]
   bucket = aws_s3_bucket.my_bucket.id
