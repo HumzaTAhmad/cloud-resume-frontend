@@ -21,11 +21,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1 # or your AWS region
     
-    - name: choose test workspace state for tf cloud
-      run: terraform workspace select prod
-
+    
     - name: Terraform Init S3 and godaddy cert
       run: terraform init
+      
+    - name: choose test workspace state for tf cloud
+      run: terraform workspace select prod
 
     - name: Terraform Plan
       run: terraform plan -var="domain_name=www.deepbrainaffiliate.com"
