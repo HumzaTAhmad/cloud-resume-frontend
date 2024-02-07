@@ -1,5 +1,5 @@
 // Contents of script.js
-fetch('https://1q0ypgeji4.execute-api.us-east-1.amazonaws.com/v1', {
+fetch('https://tpj89dndw6.execute-api.us-east-1.amazonaws.com/v1', {
   method: 'PUT',
   headers: {
     'Content-Type': 'application/json',
