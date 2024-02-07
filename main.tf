@@ -6,10 +6,6 @@ provider "aws" {
 terraform {
   cloud {
     organization = "humza3173"
-
-    workspaces {
-      tags = ["prod", "test"]
-    }
   }
 }
 
