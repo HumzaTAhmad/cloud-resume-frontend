@@ -22,7 +22,7 @@ jobs:
         aws-region: us-east-1 # or your AWS region
     
     
-    - name: echo '1' | Terraform Init S3 and godaddy cert
+    - name: Terraform Init S3 and godaddy cert
       run: terraform init
 
     - name: Terraform Plan
