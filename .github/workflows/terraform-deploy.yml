@@ -24,7 +24,10 @@ jobs:
     
     - name: Terraform Init S3 and godaddy cert
       run: terraform init
-      
+
+    - name: list workspaces
+      run: terraform workspace list
+
     - name: choose test workspace state for tf cloud
       run: terraform workspace select prod
 
