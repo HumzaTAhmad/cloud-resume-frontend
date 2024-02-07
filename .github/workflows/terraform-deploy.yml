@@ -17,30 +17,24 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1 # or your AWS region
     
     
-    - name: Terraform Init S3 and godaddy cert
+    - name: echo '1' | Terraform Init S3 and godaddy cert
       run: terraform init
 
-    - name: list workspaces
-      run: terraform workspace select test|| terraform workspace new test
-
-    - name: choose test workspace state for tf cloud
-      run: terraform workspace select prod
-
     - name: Terraform Plan
-      run: terraform plan -var="domain_name=www.deepbrainaffiliate.com"
+      run: terraform plan -var="domain_name=www.humza-resume.com"
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var="domain_name=www.deepbrainaffiliate.com"
+      run: terraform apply -auto-approve -var="domain_name=www.humza-resume.com"
     
     - name: Empty S3 Bucket
-      run: aws s3 rm s3://www.deepbrainaffiliate.com --recursive
+      run: aws s3 rm s3://www.humza-resume.com --recursive
     
     - name: Deploy to S3
-      run: aws s3 sync . s3://www.deepbrainaffiliate.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
+      run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
         
       

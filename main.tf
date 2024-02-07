@@ -8,7 +8,7 @@ terraform {
     organization = "humza3173"
 
     workspaces {
-      name = "prod"
+      name = "resume-frontend-prod"
     }
   }
 }
