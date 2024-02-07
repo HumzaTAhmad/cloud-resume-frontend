@@ -3,7 +3,7 @@ name: Deploy Infrastructure with Terraform
 on: [push]
 
 jobs:
-  build-dev:
+  build-prod:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
@@ -20,27 +20,23 @@ jobs:
         aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1 # or your AWS region
+    
+    - name: choose test workspace state for tf cloud
+      run: terraform workspace select prod
 
     - name: Terraform Init S3 and godaddy cert
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan -var="domain_name=www.humza-resume.com"
+      run: terraform plan -var="domain_name=www.deepbrainaffiliate.com"
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var="domain_name=www.humza-resume.com"
+      run: terraform apply -auto-approve -var="domain_name=www.deepbrainaffiliate.com"
     
     - name: Empty S3 Bucket
-      run: aws s3 rm s3://www.humza-resume.com --recursive
+      run: aws s3 rm s3://www.deepbrainaffiliate.com --recursive
     
     - name: Deploy to S3
-      run: aws s3 sync . s3://www.humza-resume.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
+      run: aws s3 sync . s3://www.deepbrainaffiliate.com --exclude "*.git*" --exclude "*.github*" --exclude "*.terraform*" --exclude "main.tf" --exclude "*.yml"
         
-    - name: Empty S3 Bucket
-      run: aws s3 rm s3://www.humza-resume.com --recursive
-
-    - name: Terraform Destroy
-      run: terraform destroy -auto-approve
-    
-  
       
