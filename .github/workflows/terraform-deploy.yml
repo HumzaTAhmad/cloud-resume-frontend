@@ -26,7 +26,7 @@ jobs:
       run: terraform init
 
     - name: list workspaces
-      run: terraform workspace list
+      run: terraform workspace select test|| terraform workspace new test
 
     - name: choose test workspace state for tf cloud
       run: terraform workspace select prod

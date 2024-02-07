@@ -8,7 +8,7 @@ terraform {
     organization = "humza3173"
 
     workspaces {
-      tags = ["prod", "test"]
+      name = "prod"
     }
   }
 }
