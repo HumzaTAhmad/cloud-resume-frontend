@@ -7,7 +7,6 @@ fetch('https://tpj89dndw6.execute-api.us-east-1.amazonaws.com/v1', {
 })
 .then(response => response.json())
 .then(data => {
-    console.log("HIIII")
   document.getElementById('visitCount').textContent = data.visits;
 })
 .catch((error) => {
